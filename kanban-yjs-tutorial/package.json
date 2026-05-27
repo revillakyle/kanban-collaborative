@@ -8,16 +8,16 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev-websocket": "PORT=3000 y-websocket"
+    "dev-websocket": "y-websocket --port 1234"
   },
   "dependencies": {
-    "nanoid": "^5.1.11",
+    "nanoid": "^5.0.7",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "valtio": "^2.3.2",
-    "valtio-yjs": "^0.6.0",
-    "y-websocket": "^1.5.0",
-    "yjs": "^13.6.30"
+    "valtio": "^1.13.2",
+    "valtio-yjs": "^0.5.1",
+    "y-websocket": "^2.0.3",
+    "yjs": "^13.6.18"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

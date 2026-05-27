@@ -20,3 +20,10 @@ export const addTask = (status: TaskStatus) =>{
     const id = nanoid()
     taskStore[id]={id,status,value:"",order} 
 }
+
+export const updateTask = (id:string, value:string)=>{
+    const task = taskStore[id]
+    if(task){
+        task.value=value
+    }
+}
