@@ -6,17 +6,24 @@ interface TaskStore{
     [taskId:string]:Task;
 }
 
-export const filteredTasks = (
-    status:TaskStatus,
-    taskStore:TaskStore
-):Task[]=>Object.values(taskStore).filter((task)=>task.status===status)
+const computeOrder = (prevId?: string, nextId?: string):number =>{
+    const prevOrder=taskStore[prevId ?? ""]?.order ?? 0
+    const nextOrder=nextId ? taskStore[nextId].order : 1;
+
+    return (prevOrder+nextOrder)/2
+}
+
+export const filteredTasks = (status:TaskStatus,taskStore:TaskStore):
+    Task[]=>Object.values(taskStore).filter((task)=>task.status===status).sort((a,b)=>a.order-b.order)
 
 export const taskStore = proxy<TaskStore>({});
 
 export const useTasks = () => useSnapshot(taskStore);
 
 export const addTask = (status: TaskStatus) =>{
-    const order = 0; //dummy 
+    const tasks = filteredTasks(status,taskStore)
+    const lastTask = tasks[tasks.length-1]
+    const order = computeOrder(lastTask?.id)
     const id = nanoid()
     taskStore[id]={id,status,value:"",order} 
 }
@@ -25,5 +32,15 @@ export const updateTask = (id:string, value:string)=>{
     const task = taskStore[id]
     if(task){
         task.value=value
+    }
+}
+
+
+export const moveTask = (id:string, status: TaskStatus, prevId?: string, nextId?:string)=>{
+    const order = computeOrder(prevId, nextId);
+    const task = taskStore[id];
+    if(task){
+        task.status=status;
+        task.order=order;
     }
 }
